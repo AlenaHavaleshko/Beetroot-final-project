@@ -1,0 +1,100 @@
+@import "../variables.scss";
+
+.main-layout {
+ min-height: 100vh;
+
+ &__page-content {
+   flex: 1 1 auto;
+   padding: 16px 24px;
+ }
+
+ &__page-footer {
+   background-color: rgba(0, 0, 0, 0.88);
+ }
+}
+
+.sider {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.logo-tekst {
+  font-family: 'Dancing Script', cursive;
+  color: aliceblue;
+  display: inline-block;
+  font-weight: 450px;
+  text-align: center;
+  margin: 5px;
+}
+
+.logo-svg {
+  align-items: center;
+}
+
+.sider-logout {
+  position: absolute;
+  bottom: 65px;
+  right: 37px;
+  display: flex;
+  border-color: var(--accent-background-color);
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  color: var(--btn-text-color);
+  background-color: var(--accent-background-color);
+  box-shadow: var(--shadow-logout-btn);
+  border-radius: 10px;
+  transition: background-color var(--animation);
+}
+
+.general-font {
+  margin-right: 10px;
+  padding-right: 6px;
+    font-family: var(--primary-font);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.02em;
+}
+.header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.header {
+  height: 80px;
+
+  
+
+  &-page {
+    margin-left: 40px;
+
+  }
+
+  &-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap: 16px;
+
+    &__theme {
+      width: 50px;
+      height: 50px;
+    }
+
+    &__name {
+
+    }
+
+    &__icon {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}

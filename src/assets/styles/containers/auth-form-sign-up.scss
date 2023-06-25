@@ -1,0 +1,26 @@
+@import "../variables.scss";
+
+Form {
+ background-color: lightpink;
+}
+
+.registration-form {
+ max-width: 600px;
+ margin: 0 auto;
+ border-radius: 2%;
+ border: 1px solid black;
+ padding: 50px;
+}
+
+label, ::placeholder, p {
+ font-family: "Monda", sans-serif;
+ font-style: normal;
+ font-weight: 400;
+ font-size: 16px;
+
+ letter-spacing: 0.1em;
+}
+
+p {
+ font-size: 25px;
+}

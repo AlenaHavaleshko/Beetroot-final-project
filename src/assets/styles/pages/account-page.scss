@@ -1,0 +1,63 @@
+@import "../variables.scss";
+
+Form {
+background-color: white;
+max-width: 100vh;
+margin: 0 auto;
+}
+
+.account-form-name, .account-form-email {
+ display: inline-block;
+ width: calc(50% - 8px);
+}
+
+.account-form-telegram, .account-form-phone {
+ display: inline-block;
+ width: calc(50% - 8px);
+ margin: 0px 8px;
+}
+
+.general-margin {
+ margin-bottom: 0;
+}
+
+.registration-form {
+ max-width: 600px;
+ margin: 0 auto;
+ border-radius: 2%;
+ border: none;
+}
+
+label, ::placeholder, p {
+ font-family: "Monda", sans-serif;
+ font-style: normal;
+ font-weight: 400;
+ font-size: 16px;
+
+ letter-spacing: 0.1em;
+}
+
+p {
+ font-size: 25px;
+}
+.add-photo {
+ width: 80px;
+ height: 80px;
+ display: block;
+ margin: 0 auto;
+}
+
+.user-data {
+ text-align: center;
+}
+
+.account-button {
+ margin: 0 auto;
+ display: block;
+
+}
+
+
+
+
+ 

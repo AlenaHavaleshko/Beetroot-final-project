@@ -1,0 +1,12 @@
+@import "../variables.scss";
+
+.home-page {
+ display: grid;
+ grid-template-columns: repeat(4, 240px);
+ gap: 16px;  
+
+ align-items: center;
+ justify-content: center;
+
+ margin: 24px 0;
+}
