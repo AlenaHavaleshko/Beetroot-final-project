@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FcAddImage } from 'react-icons/fc'
 import {
  Button,
@@ -9,12 +9,38 @@ import {
  Radio,
  Col,
  Row,
- notification
+ notification,
+ Spin
 } from "antd";
 
+// api
+import accountAPI from "../../api/apiService";
+
+//assets
 import "../../assets/styles/pages/account-page.scss";
 
 function AccountPage() {
+
+const [userAccountData,setUserAccountData] =useState([]);
+const [isLoading, setIsLoading] = useState(false);
+ 
+const fetchItems = async () => {
+ setIsLoading(true);
+ try {
+  const response = await accountAPI.getAccountInfoCall();
+  setUserAccountData(response.data);
+ } catch (error) {
+  notification.error({
+   message: (<b>Something went wrong!</b>)
+  });
+ }
+
+ setIsLoading(false);
+};
+//в UseEffect не може бути стрілочна функція бути асинх функції
+useEffect(() => {       
+ fetchItems();
+ }, []);
 
 const userData =  {
  userName: "Boris Jonsonuk",
@@ -28,7 +54,6 @@ const userData =  {
  let [form] = Form.useForm();
 form.setFieldsValue(userData);
 
- const [isLoading, setIsLoading] = useState(false);
 
  const onFinish = (e) => {
   console.log(e);
@@ -53,6 +78,7 @@ form.setFieldsValue(userData);
  }
 
  return (
+  
   <Form
    form={form}
    className="registration-form"
@@ -64,6 +90,7 @@ form.setFieldsValue(userData);
    <p className="user-data">user</p>
 
    {/* User name / Telegram  */}
+   <Spin/>
    <Form.Item className="genera-margin">
     <Form.Item
      label="User Name"

@@ -1,7 +1,9 @@
 import axiosLib from "axios";
 
+import { REST_API_URL } from "./constants"
+ 
 const axios = axiosLib.create({
-  baseURL: "https://fakestoreapi.com",
+  baseURL: REST_API_URL,
   headers: { "Content-Type": "application/json" }
 });
 

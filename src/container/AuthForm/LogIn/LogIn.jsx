@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
+import accountAPI from '../../../api/apiService';
 
 //assets
 import "../../../assets/styles/containers/auth-form-log-in.scss";
@@ -25,25 +26,22 @@ const LogIn = () => { //function LogIn() {
 
   const handleLoginClick = e => { //- або так на onClik навігувати при натисканні на кнопку
 
-    // logout: https://goose-track-api-3uhn.onrender.com/api/user/logout
-    // login: https://goose-track-api-3uhn.onrender.com/api/auth/login
     const loginData = {
       email: 'alena.havaleshko@gmail.com',
-      password: ''
+      password: 'Ha050989bAa'
     }
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(loginData)
-    };
-  fetch('https://goose-track-api-3uhn.onrender.com/api/auth/login', requestOptions)
-      .then(response => response.json())
-      .then(data => console.log(data));
+    loginProcessing(loginData);   
+  }
 
-    
+  
+  const loginProcessing = async(loginData) => { // function arrow
+    const data = await accountAPI.loginCall(loginData);
+    localStorage.setItem('auth', JSON.stringify(data));
     navigate("/calendar", { replace: true });
   }
+
+
 
   const navigate = useNavigate();
 
@@ -101,8 +99,7 @@ const LogIn = () => { //function LogIn() {
           type="primary" 
           htmlType="submit" 
           className="login-form-button"
-          // onClick={() => handleLoginClick()}
-          onClick={() => navigate("/calendar")}>
+          onClick={() => handleLoginClick()} >
           Log in
         </Button>
         Or&nbsp;
