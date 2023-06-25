@@ -12,11 +12,11 @@ const LogIn = () => { //function LogIn() {
   };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+   // setIsLoading(true);
 
     const onFinish = (values) => {
       console.log("Received values of form: ", values);
@@ -57,7 +57,7 @@ const LogIn = () => { //function LogIn() {
       onFinish={onFinish}
       onSubmit={handleSubmit}
     >
-      <p className="login-form-text">Log In</p>
+      <p  className="login-form-text">Log In</p>
 
       <Form.Item
         name="username"
