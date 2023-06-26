@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, notification } from 'antd';
+
+//api
+import accountAPI from '../../../api/apiService';
 
 //assets
 import "../../../assets/styles/containers/auth-form-log-in.scss";
 
-const LogIn = () => {
+const SignUp = () => {
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(""); 
 
   const formItemLayout = {
     labelCol: { span: 8 },
@@ -112,4 +115,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default SignUp;

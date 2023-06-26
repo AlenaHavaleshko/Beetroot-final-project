@@ -31,10 +31,19 @@ import axios from "./axios";
 const accountAPI = {
  // эта апишка для логина, в ответ тоже возвращает данные юзера и НУЖНЫЙ НАМ ТОКЕН!!!
  loginCall: async (data) => {
+  console.log(data);
     const response = await axios.post(`/api/auth/login`, data); // REST_API_URL + /api/auth/login
-    console.log(response.data);
+    console.log(response);
 
     return response.data;
+ },
+
+ registeredCall: async (data) => {
+  console.log(data);
+  const response = await axios.post(`/api/auth/register`, data); // REST_API_URL + /api/auth/register
+  console.log(response);
+
+  return response.data;
  },
 
  getAccountInfoCall: async () => {

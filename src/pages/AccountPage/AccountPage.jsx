@@ -21,38 +21,38 @@ import "../../assets/styles/pages/account-page.scss";
 
 function AccountPage() {
 
-const [userAccountData,setUserAccountData] =useState([]);
-const [isLoading, setIsLoading] = useState(false);
- 
-const fetchItems = async () => {
- setIsLoading(true);
- try {
-  const response = await accountAPI.getAccountInfoCall();
-  setUserAccountData(response.data);
- } catch (error) {
-  notification.error({
-   message: (<b>Something went wrong!</b>)
-  });
- }
+ const [userAccountData, setUserAccountData] = useState([]);
+ const [isLoading, setIsLoading] = useState(false);
 
- setIsLoading(false);
-};
-//в UseEffect не може бути стрілочна функція бути асинх функції
-useEffect(() => {       
- fetchItems();
+ const fetchItems = async () => {
+  setIsLoading(true);
+  try {
+   const response = await accountAPI.getAccountInfoCall();
+   setUserAccountData(response.data);
+  } catch (error) {
+   notification.error({
+    message: (<b>Something went wrong!</b>)
+   });
+  }
+
+  setIsLoading(false);
+ };
+ //в UseEffect не може бути стрілочна функція бути асинх функції
+ useEffect(() => {
+  fetchItems();
  }, []);
 
-const userData =  {
- userName: "Boris Jonsonuk",
- sotialMedia: "Telegram",
- datePicker1: "2015/01",
- email: "example@gmail.com",
- gender: "female",
- phoneNumber: "+380661695564",
-}
+ const userData = {
+  userName: "Boris Jonsonuk",
+  sotialMedia: "Telegram",
+  datePicker1: "2015/01",
+  email: "example@gmail.com",
+  gender: "female",
+  phoneNumber: "+380661695564",
+ }
 
  let [form] = Form.useForm();
-form.setFieldsValue(userData);
+ form.setFieldsValue(userData);
 
 
  const onFinish = (e) => {
@@ -67,9 +67,9 @@ form.setFieldsValue(userData);
    message: (<ul>
     <li>User name: {form.getFieldValue('userName')}</li>
     <li>Telegram: {form.getFieldValue('telegram')}</li>
-     <li>Email: {form.getFieldValue('email')}</li>
-     <li>Password: {form.getFieldValue('password')}</li>
-     <li>Phone number: {form.getFieldValue('phoneNumber') }</li>
+    <li>Email: {form.getFieldValue('email')}</li>
+    <li>Password: {form.getFieldValue('password')}</li>
+    <li>Phone number: {form.getFieldValue('phoneNumber')}</li>
     <b>Data was saved!</b>
    </ul>)
   });
@@ -78,7 +78,7 @@ form.setFieldsValue(userData);
  }
 
  return (
-  
+
   <Form
    form={form}
    className="registration-form"
@@ -90,7 +90,11 @@ form.setFieldsValue(userData);
    <p className="user-data">user</p>
 
    {/* User name / Telegram  */}
-   <Spin/>
+   {/* {
+    isLoading
+     ? <Spin size="large" />
+     : ()
+   } */}
    <Form.Item className="genera-margin">
     <Form.Item
      label="User Name"
@@ -123,7 +127,7 @@ form.setFieldsValue(userData);
        <Radio.Group name="gender" label="Gender">
         <Radio value="male"> Male </Radio>
         <Radio value="female"> Female </Radio>
-        
+
        </Radio.Group>
       </Form.Item>
      </Col>

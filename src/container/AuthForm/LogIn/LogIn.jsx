@@ -1,92 +1,90 @@
 import React, { useState } from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
+
+//api
 import accountAPI from '../../../api/apiService';
 
 //assets
 import "../../../assets/styles/containers/auth-form-log-in.scss";
 
 const LogIn = () => { //function LogIn() {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
+  let [form] = Form.useForm();
+  // form.setFieldsValue({ email: 'alena.havaleshko@gmail.com', password: 'Ha050989bAa' });
+  //form.setFieldsValue({ email: '', password: '' });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [disabledSave, setDisabledSave] = useState(true);
+
+  async function loginProcessing(loginData) { // function arrow
     setIsLoading(true);
-
-    const onFinish = (values) => {
-      console.log("Received values of form: ", values);
-    };
-  }
-
-  const handleLoginClick = e => { //- або так на onClik навігувати при натисканні на кнопку
-
-    const loginData = {
-      email: 'alena.havaleshko@gmail.com',
-      password: 'Ha050989bAa'
+    try {
+      const data = await accountAPI.loginCall(loginData);
+      localStorage.setItem('auth', JSON.stringify(data));
+      navigate("/calendar", { replace: true });
+    } catch (error) {
+      notification.error({
+        message: (<b>You entered the wrong username or password!</b>)
+      });
     }
 
-    loginProcessing(loginData);   
+    setIsLoading(false);
   }
-
-  
-  const loginProcessing = async(loginData) => { // function arrow
-    const data = await accountAPI.loginCall(loginData);
-    localStorage.setItem('auth', JSON.stringify(data));
-    navigate("/calendar", { replace: true });
-  }
-
-
 
   const navigate = useNavigate();
+
+  const handleFormChange = () => {
+    // const hasErrors = !form.isFieldsTouched(true) ||
+    //     form.getFieldsError().filter(({ errors }) => errors.length)
+    const hasErrors = form.getFieldsError().some(({ errors }) => errors.length);
+    setDisabledSave(hasErrors);
+  }
+
+  const onFinish = (values) => {
+    console.log(form)
+    console.log(values);
+    console.log(form.getFieldValue())
+    loginProcessing(values);
+  };
 
 
   return (
     <Form
+      form={form}
+      onFieldsChange={() => handleFormChange()} 
       name="normal_login"
       className="login-form"
       layout="vertical"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onSubmit={handleSubmit}
+      onFinish={(v) => onFinish(v)}
     >
       <p className="login-form-text">Log In</p>
 
       <Form.Item
-        name="username"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        label="Email"
+        name="email"
+        label="Email"  
         type="email"
-        rules={[{ required: true, message: 'Please input your Username!' }]}
+        rules={[{ required: true, type: "email", message: 'Please include an @ in your email !' }]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} 
-        placeholder="Email" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Enter your email" />
       </Form.Item>
       <Form.Item
         name="password"
         label="Password"
-        placeholder={"Enter your password"}
-        value={password}
-        onChange={e => setPassword(e.target.value)}
         type="password"
         rules={[{ required: true, message: 'Please input your Password!' }]}
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
-          placeholder="Password"
+          placeholder="Enter password"
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
+        {/* <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
-        </Form.Item>
+        </Form.Item> */}
 
         <a className="login-form-forgot" href="">
           Forgot password
@@ -94,20 +92,20 @@ const LogIn = () => { //function LogIn() {
       </Form.Item>
 
       <Form.Item>
-        <Button 
-          
-          type="primary" 
-          htmlType="submit" 
+        <Button         
+          disabled={disabledSave}
+          type="primary"
+          htmlType="submit"
           className="login-form-button"
-          onClick={() => handleLoginClick()} >
+        >
           Log in
         </Button>
         Or&nbsp;
-        <Link 
-          to="/signup"         
+        <Link
+          to="/signup"
           className="login-form-button"
           onClick={() => navigate("/calendar")}
-          >
+        >
           Sign up!
         </Link>
       </Form.Item>

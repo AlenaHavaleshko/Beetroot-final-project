@@ -174,8 +174,8 @@ export default [
   {
     id: 23,
     title: 'Go to the gym',
-    start: new Date(2015, 3, 14, 18, 30, 0),
-    end: new Date(2015, 3, 14, 20, 0, 0),
+    start: new Date(2023, 3, 14, 18, 30, 0),
+    end: new Date(2023, 3, 14, 20, 0, 0),
   },
   {
     id: 24,
