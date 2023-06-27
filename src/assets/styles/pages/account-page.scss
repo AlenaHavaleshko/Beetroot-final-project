@@ -3,20 +3,48 @@
 Form {
 background-color: white;
 max-width: 100vh;
+max-height: 100vh;
 margin: 0 auto;
 }
 
 .account-form-name, .account-form-email {
  display: inline-block;
  width: calc(50% - 8px);
+
+   @media (max-width: 768px) {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   }
 }
 
 .account-form-telegram, .account-form-phone {
  display: inline-block;
  width: calc(50% - 8px);
  margin: 0px 8px;
+
+ @media (max-width: 768px) {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   }
 }
 
+.date-picker {
+   @media (max-width: 768px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      text-align: center;
+      }
+}
+
+input {
+   max-width: 300px;
+}
 .general-margin {
  margin-bottom: 0;
 }
@@ -28,12 +56,12 @@ margin: 0 auto;
  border: none;
 }
 
-label, ::placeholder, p {
- font-family: "Monda", sans-serif;
+label, ::placeholder, p, input {
+
+ font-family: var(--primary-font);
  font-style: normal;
  font-weight: 400;
- font-size: 16px;
-
+font-size: 18px;
  letter-spacing: 0.1em;
 }
 
@@ -50,11 +78,31 @@ p {
 .user-data {
  text-align: center;
 }
-
 .account-button {
- margin: 0 auto;
- display: block;
+   margin: 0 auto;
+   display: block;
+   font-family: var(--primary-font);
+   letter-spacing: 0.1em;
+   display: flex;
+   border-color: var(--accent-background-color);
+   align-items: center;
+   justify-content: center;
+   padding: 14px 28px;
+   color: var(--btn-text-color);
+   background-color: var(--accent-background-color);
+   box-shadow: var(--shadow-logout-btn);
+   border-radius: 10px;
+   transition: background-color var(--animation);
+   height: auto;
+}
 
+.example {
+ margin: 150px 0;
+ // margin-bottom: 80px;
+ padding: 30px 50px;
+ text-align: center;
+ // background: rgba(0, 0, 0, 0.05);
+ border-radius: 4px;
 }
 
 

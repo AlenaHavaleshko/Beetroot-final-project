@@ -59,7 +59,7 @@ function CalendarPage() {
 
   const { defaultDate, scrollToTime } = useMemo(
     () => ({
-      defaultDate: new Date(2015, 3, 12),
+      defaultDate: new Date(2023, 3, 12),
       scrollToTime: new Date(1970, 1, 1, 6),
     }),
     []

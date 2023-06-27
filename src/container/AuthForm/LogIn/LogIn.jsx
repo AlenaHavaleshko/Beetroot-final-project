@@ -10,18 +10,16 @@ import accountAPI from '../../../api/apiService';
 import "../../../assets/styles/containers/auth-form-log-in.scss";
 
 const LogIn = () => { //function LogIn() {
-   const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   let [form] = Form.useForm();
-  // form.setFieldsValue({ email: 'alena.havaleshko@gmail.com', password: 'Ha050989bAa' });
-  //form.setFieldsValue({ email: '', password: '' });
 
   const [disabledSave, setDisabledSave] = useState(true);
 
   async function loginProcessing(loginData) { // function arrow
     setIsLoading(true);
     try {
-      const data = await accountAPI.loginCall(loginData);
-      localStorage.setItem('auth', JSON.stringify(data));
+      const data = await accountAPI.loginAPI(loginData);
+      localStorage.setItem("auth", JSON.stringify(data));
       navigate("/calendar", { replace: true });
     } catch (error) {
       notification.error({
@@ -35,8 +33,6 @@ const LogIn = () => { //function LogIn() {
   const navigate = useNavigate();
 
   const handleFormChange = () => {
-    // const hasErrors = !form.isFieldsTouched(true) ||
-    //     form.getFieldsError().filter(({ errors }) => errors.length)
     const hasErrors = form.getFieldsError().some(({ errors }) => errors.length);
     setDisabledSave(hasErrors);
   }
@@ -50,66 +46,76 @@ const LogIn = () => { //function LogIn() {
 
 
   return (
-    <Form
-      form={form}
-      onFieldsChange={() => handleFormChange()} 
-      name="normal_login"
-      className="login-form"
-      layout="vertical"
-      onFinish={(v) => onFinish(v)}
-    >
-      <p className="login-form-text">Log In</p>
+    <div className="login-page">
+      <div className="login-logo">
+        <svg className="login-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="100px" height="100px"><linearGradient id="IMoH7gpu5un5Dx2vID39Ra" x1="9.858" x2="38.142" y1="9.858" y2="38.142" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#9dffce" /><stop offset="1" stopColor="#50d18d" /></linearGradient><path fill="url(#IMoH7gpu5un5Dx2vID39Ra)" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z" /><linearGradient id="IMoH7gpu5un5Dx2vID39Rb" x1="13" x2="36" y1="24.793" y2="24.793" gradientUnits="userSpaceOnUse"><stop offset=".824" stopColor="#135d36" /><stop offset=".931" stopColor="#125933" /><stop offset="1" stopColor="#11522f" /></linearGradient><path fill="url(#IMoH7gpu5un5Dx2vID39Rb)" d="M21.293,32.707l-8-8c-0.391-0.391-0.391-1.024,0-1.414l1.414-1.414	c0.391-0.391,1.024-0.391,1.414,0L22,27.758l10.879-10.879c0.391-0.391,1.024-0.391,1.414,0l1.414,1.414	c0.391,0.391,0.391,1.024,0,1.414l-13,13C22.317,33.098,21.683,33.098,21.293,32.707z" /></svg>
+        <h1
+          className="login-logo-text">
+          Task tracker</h1>
 
-      <Form.Item
-        name="email"
-        label="Email"  
-        type="email"
-        rules={[{ required: true, type: "email", message: 'Please include an @ in your email !' }]}
+        <div className="demo-logo-vertical" />
+      </div>
+      <Form
+        form={form}
+        onFieldsChange={() => handleFormChange()}
+        name="normal_login"
+        className="login-form"
+        layout="vertical"
+        onFinish={(v) => onFinish(v)}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Enter your email" />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        label="Password"
-        type="password"
-        rules={[{ required: true, message: 'Please input your Password!' }]}
-      >
-        <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
+        <p className="login-form-text">Log In</p>
+
+        <Form.Item
+          name="email"
+          label="Email"
+          type="email"
+          rules={[{ required: true, type: "email", message: 'Please include an @ in your email !' }]}
+        >
+          <Input prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="Enter your email" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="Password"
           type="password"
-          placeholder="Enter password"
-        />
-      </Form.Item>
-      <Form.Item>
-        {/* <Form.Item name="remember" valuePropName="checked" noStyle>
+          rules={[{ required: true, message: 'Please input your Password!' }]}
+        >
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Enter password"
+          />
+        </Form.Item>
+        <Form.Item>
+          {/* <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item> */}
 
-        <a className="login-form-forgot" href="">
-          Forgot password
-        </a>
-      </Form.Item>
+          <a className="login-form-forgot" href="">
+            Forgot password
+          </a>
+        </Form.Item>
 
-      <Form.Item>
-        <Button         
-          disabled={disabledSave}
-          type="primary"
-          htmlType="submit"
-          className="login-form-button"
-        >
-          Log in
-        </Button>
-        Or&nbsp;
-        <Link
-          to="/signup"
-          className="login-form-button"
-          onClick={() => navigate("/calendar")}
-        >
-          Sign up!
-        </Link>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <Button
+            disabled={disabledSave}
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            Log In
+          </Button>
+          Or&nbsp;
+          <Link
+            to="/signup"
+            className="login-form-button"
+            onClick={() => navigate("/calendar")}
+          >
+            Sign up!
+          </Link>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 
