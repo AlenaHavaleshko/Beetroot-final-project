@@ -2,7 +2,9 @@
 import React, { Fragment, useState, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calendar'
+import { Spin } from "antd";
 // import events from "../../helpers/events";
+import "../../assets/styles/pages/calendar-page.scss";
 import moment from 'moment';
 import accountAPI from "../../api/apiService";
 
@@ -10,6 +12,7 @@ function CalendarPage() {
 
   const localizer = momentLocalizer(moment);
   const [myEvents, setEvents] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log('Use effect');
@@ -19,12 +22,12 @@ function CalendarPage() {
   const handleSelectSlot = useCallback(
     ({ start, end }) => {
       const title = window.prompt('Please enter event name');
-      if (title) {       
-        const newEvent =  {
+      if (title) {
+        const newEvent = {
           date: moment(start).format("YYYY-MM-DD"), // 2023-06-10
           start: moment(start).format("HH:mm"), // эта строка конвертит JS Date в 21:35
-          end: moment(end).format("HH:mm"), 
-          priority: "Low",          
+          end: moment(end).format("HH:mm"),
+          priority: "Low",
           status: "To do",
           title: title,
         }
@@ -50,11 +53,13 @@ function CalendarPage() {
   )
 
   const handleAddEvent = async (newEvent) => {
+    setIsLoading(true);
     try {
       const response = await accountAPI.addTasksEventsAPI(newEvent);
     } catch (error) {
       console.error('Error when adding an event', error);
     }
+    setIsLoading(false);
   };
 
   const onChangeNavigation = (date, action) => {
@@ -65,6 +70,7 @@ function CalendarPage() {
   }
 
   const getCalendarEvents = async (year, month) => {
+    setIsLoading(true);
     try {
       const response = await accountAPI.getCalendarEventsAPI(year, month);
 
@@ -78,7 +84,7 @@ function CalendarPage() {
             start: new Date(event.createYear, event.createMonth - 1, event.createDay, 8, 0, 0), //10:32
             end: new Date(event.createYear, event.createMonth - 1, event.createDay, 10, 30, 0), //12:32
           });
-         });       
+        });
       });
       setEvents(arrayOfEvents);
       console.log(arrayOfEvents);
@@ -87,17 +93,19 @@ function CalendarPage() {
     } catch (error) {
       console.error('Error when open a calendar', error);
     }
+    setIsLoading(false);
   };
 
   return (
-
     <Fragment>
-      {/* <button onClick={handleAddEventButtonClick}>Add new event</button> */}
-      {/* <button onClick={handleGetCalendarButtonClick}>Get calendar</button> */}
-      <div style={{
-        height: 600
-      }} className="height600"
-      >
+      { isLoading
+    ? (
+      <div className="example">
+        <Spin size="large" style={{ margin: '0 auto' }} />
+      </div>
+      ) : (
+      <div style={{ height: 600 }} className="height600">
+        
         <Calendar
           onNavigate={(data, view, action) => onChangeNavigation(data, action)}
           defaultDate={defaultDate}
@@ -110,7 +118,7 @@ function CalendarPage() {
           scrollToTime={scrollToTime}
         />
       </div>
-
+      )}
     </Fragment>
   )
 }
