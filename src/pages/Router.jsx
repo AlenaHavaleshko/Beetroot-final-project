@@ -19,7 +19,7 @@ function Router () {
 
  return(
 <Routes>
-  <Route path="/" element={<AuthRoute element={LogIn}/>}/>
+  <Route path="/login" element={<AuthRoute element={LogIn}/>}/>
   <Route path="/login" element= {<AuthRoute element={LogIn}/>}/>
   <Route path="/signup" element= {<AuthRoute element={SignUp}/>}/>
   <Route path="/account" element= {<PublicRoute element={AccountPage}/>}/> 
