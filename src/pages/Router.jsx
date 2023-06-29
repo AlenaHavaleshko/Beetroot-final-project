@@ -20,7 +20,7 @@ function Router () {
 
  return(
 <Routes>
-  <Route path="/" element={<PublicRoute element={CalendarPage}/>}/>
+  <Route path="/" element={<PublicRoute element={LogIn}/>}/>
 
   <Route path="/login" element= {<AuthRoute element={LogIn}/>}/>
   <Route path="/signup" element= {<AuthRoute element={SignUp}/>}/>
