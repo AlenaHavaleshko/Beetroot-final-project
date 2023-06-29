@@ -14,7 +14,6 @@ function CalendarPage() {
   useEffect(() => {
     console.log('Use effect');
     getCalendarEvents(2023, 6);
-    //getAccountInfomation();
   }, []);
 
   const handleSelectSlot = useCallback(
