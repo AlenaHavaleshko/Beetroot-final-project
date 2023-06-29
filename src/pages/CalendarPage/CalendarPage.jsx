@@ -2,7 +2,6 @@
 import React, { Fragment, useState, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calendar'
-// import DemoLink from '../../DemoLink.component'
 // import events from "../../helpers/events";
 import moment from 'moment';
 import accountAPI from "../../api/apiService";
