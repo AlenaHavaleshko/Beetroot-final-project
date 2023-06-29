@@ -19,7 +19,6 @@ const SignUp = () => {
     setIsLoading(true);
     try {
       const data = await accountAPI.registeredAPI(loginData);
-     // localStorage.setItem('auth', JSON.stringify(data));
       navigate("/calendar", { replace: true });
     } catch (error) {
       notification.error({
@@ -44,30 +43,6 @@ const SignUp = () => {
     loginProcessing(values);
   };
 
-
-
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [userName, setUserName] = useState(""); 
-
-  // const formItemLayout = {
-  //   labelCol: { span: 8 },
-  //   wrapperCol: { span: 24 },
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-
-  //   const onFinish = (values) => {
-  //     console.log("Received values of form: ", values);
-  //   };
-  // }
-
-  // const navigate = useNavigate();
-
-
   return (
     <div className="signup-page">
       <div className="login-logo">
@@ -84,17 +59,13 @@ const SignUp = () => {
         name="normal_signup"
         className="login-form"
         layout="vertical"
-        // initialValues={{ remember: true }}
         onFinish={(v) => onFinish(v)}
       >
         <p className="signup-form-text">Sign up</p>
 
         <Form.Item
-          // {...formItemLayout}
           name="name"
           label="Name"
-          // value={userName}
-          // onChange={e => setUserName(e.target.value)}
           type="email"
           rules={[{ required: true, message: 'Please input your name' }]}
         >
@@ -104,8 +75,6 @@ const SignUp = () => {
 
         <Form.Item
           name="email"
-          // value={email}
-          // onChange={e => setEmail(e.target.value)}
           label="Email"
           type="email"
           rules={[{ required: true, message: 'Please input your Email!' }]}
@@ -117,8 +86,6 @@ const SignUp = () => {
           name="password"
           label="Password"
           placeholder={"Enter your password"}
-          // value={password}
-          // onChange={e => setPassword(e.target.value)}
           type="password"
           rules={[{ required: true, message: 'Please input your Password!' }]}
         >
@@ -129,9 +96,6 @@ const SignUp = () => {
           />
         </Form.Item>
         <Form.Item>
-          {/* <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item> */}
 
           <a className="login-form-forgot" href="">
             Forgot password

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { FcAddImage } from 'react-icons/fc'
 import {
@@ -18,6 +17,10 @@ import accountAPI from "../../api/apiService";
 
 //assets
 import "../../assets/styles/pages/account-page.scss";
+import moment from 'moment';
+
+
+const dateFormat = 'YYYY-MM-DD';
 
 function AccountPage() {
 
@@ -30,9 +33,7 @@ function AccountPage() {
     try {
       const response = await accountAPI.getAccountInfoAPI();
       console.log(response);
-      setUserAccountData(response.user);
-
-      
+      setUserAccountData(response.user);    
 
 
       const userData = {
@@ -46,7 +47,6 @@ function AccountPage() {
 
       form.setFieldsValue(response.user);
 
-      //form.setFieldsValue(userAccountData);
       console.log(response.user);
       console.log(userData);
     }
@@ -62,21 +62,21 @@ function AccountPage() {
   }, []);
 
 
-  const onFinish = (e) => {
-    console.log(e);
-    console.log(form)
-    notification.success({
-      message: (<ul>
-        <li>User name: {form.getFieldValue('name')}</li>
-        <li>Telegram: {form.getFieldValue('telegram')}</li>
-        <li>Email: {form.getFieldValue('email')}</li>
-        <li>Password: {form.getFieldValue('password')}</li>
-        <li>Phone number: {form.getFieldValue('phone')}</li>
-        <b>Data was saved!</b>
-      </ul>)
-    });
+  const saveAccountInformation = async (formValues) => {
+    setIsLoading(true);
+    try {
+      const response = await accountAPI.saveAccountInfoAPI(formValues);
+      notification.success({
+        message: (<b>Data successfully saved</b>)
+      });      
+    }
+    catch (error) { }
 
-    form.resetFields();    //reset form
+    setIsLoading(false);
+  };
+
+  const onFinish = (formValues) => {
+    saveAccountInformation(formValues);
   }
 
   return (
@@ -91,7 +91,7 @@ function AccountPage() {
         className="registration-form"
         name="complex-form"
         layout="vertical"
-        onFinish={e => onFinish(e)}
+        onFinish={data => onFinish(data)}
       >
         <FcAddImage className="add-photo" />
         <p className="user-data">user</p>
@@ -118,11 +118,20 @@ function AccountPage() {
         {/* end User name/ Telegram */}
 
         {/* Birth day  */}
-        <Form.Item className="genera-margin">
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item className="date-picker" name="datePicker" label="Birth day">
-                <DatePicker />
+        <Form.Item className="genera-margin" label="Birth day" labelCol={{ span: 24 }}>
+          <Row gutter={24}>
+            <Col span={24}>
+              <Form.Item  
+                name="birthday" 
+                getValueProps={(i) => ({ value: i === undefined ? undefined : moment(i) })}  
+                getValueFromEvent={(onChange) => moment(onChange).format('YYYY-MM-DD')}
+                >
+                <DatePicker 
+                format={'YYYY-MM-DD'}
+                className="date-picker"
+                id="birthday"
+
+                 />
               </Form.Item>
             </Col>
           </Row>
@@ -166,9 +175,6 @@ function AccountPage() {
           </Button>
         </Form.Item>
       </Form>
-
-
-
   );
 }
 

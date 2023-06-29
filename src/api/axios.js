@@ -1,9 +1,10 @@
 import axiosLib from "axios";
 import { REST_API_URL } from "./constants";
+import { useNavigate } from "react-router-dom";
 
 import {
   notification,
- } from "antd";
+} from "antd";
 
 const axios = axiosLib.create({
   baseURL: REST_API_URL,
@@ -12,20 +13,19 @@ const axios = axiosLib.create({
   }
 });
 
-
+// перехопиваємо запити Інтерсептором и додаем токен
 axios.interceptors.request.use(
-  config => {    
-    // вытянули из локал сторейджа строку с токеном и юзером
+  config => {
+    // вытягнули з локал сторейджа строку с токеном и юзером
     const stringFromLocalstorage = localStorage.getItem("auth");
 
     let tokenStr = "";
-    if (stringFromLocalstorage) {                       // проверяем строку с локалсторейджа на null и undefinded
-      const object = JSON.parse(stringFromLocalstorage);// парсим строку в объект
-      tokenStr = object.token;                          // сетаем в переменную Токен
+    if (stringFromLocalstorage) {                       // преревіряем строку с локалсторейджа на null и undefinded
+      const object = JSON.parse(stringFromLocalstorage);// парсім строку в объект
+      tokenStr = object.token;                          // сетаем в змінну Токен
     }
 
-    console.log('===================request================');
-    config.headers['Authorization'] = `Bearer ${tokenStr}`;  // сетаем токет в хедер каждого запроса
+    config.headers['Authorization'] = `Bearer ${tokenStr}`;  // сетаем токен в хедер кожного запиту
 
     return config;
   },
@@ -34,29 +34,25 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use((response) => {
+// обрабатывает відповідь від сервера
+axios.interceptors.response.use(
+(response) => {
   return response;
-}, (error) => {
-
-  console.log(error);
-  // if(error.response.status === 401) {
-    notification.error({
+}, 
+(error) => {
+  notification.error({
     message: (error.response?.data?.message)
-    });
-  // }
+  });
+
+  if (error.response.status === 401) {
+    localStorage.clear();   // отчищаем токен из локалсторейджа(бо отримали 401)
+    window.location.pathname = '/login';
+  }
 
   if (error.response && error.response.data) {
-      return Promise.reject(error.response.data);
+    return Promise.reject(error.response.data);
   }
   return Promise.reject(error.message);
 });
-
-
-// if(error.response.status === 401) {
-//   notification.error({
-//   message: (error.response.data.message)
-// });
-// }
-
 
 export default axios;

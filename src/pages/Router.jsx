@@ -20,7 +20,7 @@ function Router () {
 
  return(
 <Routes>
-  <Route path='/' element={<PublicRoute element={CalendarPage}/>}/>
+  <Route path="/" element={<PublicRoute element={CalendarPage}/>}/>
 
   <Route path="/login" element= {<AuthRoute element={LogIn}/>}/>
   <Route path="/signup" element= {<AuthRoute element={SignUp}/>}/>
@@ -29,7 +29,6 @@ function Router () {
   <Route path="/home" element= {<PublicRoute element={HomePage}/>}/>  
 
   <Route path='/calendar' element={<PublicRoute element={CalendarPage}/>}/>
-  <Route path='/account' element={<PublicRoute element={AccountPage}/>}/>
 </Routes>
  );
 }

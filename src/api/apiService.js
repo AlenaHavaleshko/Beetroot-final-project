@@ -4,10 +4,6 @@ import axios from "./axios";
     // logout:      https://goose-track-api-3uhn.onrender.com/api/user/logout
     // login:       https://goose-track-api-3uhn.onrender.com/api/auth/login
 
-
-
-console.log('11111111111111111111111111111')
-
 const accountAPI = {
  // api for logIn, return user data and token we need
  loginAPI: async (data) => {
@@ -35,11 +31,24 @@ const accountAPI = {
  },
 
  // api for save user account data, return user data and token we need
- getChangeAccountInfoAPI: async () => {
-  const response = await axios.patch(`/api/user/info`);
+
+ saveAccountInfoAPI: async (data) => {
+  const response = await axios.patch(`/api/user/info`, data);
 
   return response.data;
-}
+},
+
+getCalendarEventsAPI: async (year, month) => {
+  const response = await axios.get(`/api/tasks?month=${month}&year=${year}`);
+
+  return response.data;
+},
+
+addTasksEventsAPI: async (data) => {
+  const response = await axios.post(`/api/tasks`, data);
+
+  return response.data;
+},
 };
 
 export default accountAPI;
