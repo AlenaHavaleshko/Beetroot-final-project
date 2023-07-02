@@ -42,7 +42,7 @@
 .sider-logout {
   position: absolute;
   bottom: 65px;
-  right: 37px;
+  right: 33px;
   display: flex;
   border-color: var(--accent-background-color);
   align-items: center;
@@ -54,6 +54,12 @@
   border-radius: 10px;
   transition: background-color var(--animation);
   height: auto;
+
+  @media (max-width: 768px) {
+      font-size: 12px;
+      padding: 4px;
+      width: auto;
+ }
 }
 
 .general-font {
@@ -66,12 +72,20 @@
     letter-spacing: 0.02em;
 }
 
+ul li:last-child {
+  position: absolute;
+  top: 440px;
+}
+
 // header
 .header-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-right: 20px;
+  @media (max-width: 580px) {
+    justify-content: center;
+  }
 }
 .header {
   height: 80px;
@@ -79,7 +93,9 @@
   &-page {
     margin-left: 50px;
     font-family: var(--primary-font);
-
+    @media (max-width: 580px) {
+        display: none;
+      }
   }
 
   &-block {

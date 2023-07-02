@@ -47,8 +47,8 @@ function AccountPage() {
 
       form.setFieldsValue(response.user);
 
-      console.log(response.user);
-      console.log(userData);
+      // console.log(response.user);
+      // console.log(userData);
     }
     catch (error) { }
 
