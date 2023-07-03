@@ -1,0 +1,21 @@
+.dark-theme {
+ --primary-background-color: #21222c;
+ --sidebar-background-color: #13151a;
+ --border: 1px solid hsla(0,0%,100%,.15);
+ --primary-text-color: #fff;
+ --accent-text-color: #fff;
+ --not-active-item-sidebar-text-color: #fff;
+ --active-item-sidebar-background: #3e85f3;
+ --btn-text-color: #fff;
+ --calendar-digit-color: #fff;
+ --task-input-bg-color: hsla(0,0%,100%,0);
+ --task-modal-label-color: hsla(0,0%,98%,.3);
+ --close-btn-color: #fff;
+ --modal-border-color: #21222c;
+ --modal-shadow-color: rgba(62,133,243,.4);
+ --active-button-period-type: #3e85f3;
+ --hover-button-period-type: rgba(33,34,44,.6);
+ --button-period-type: #21222c;
+ --color-button-period-type: #3e85f3;
+ --shadow-logout-btn: 4px 2px 16px rgba(136,165,191,.3);
+}

@@ -59,6 +59,7 @@ useEffect(() => {
  };
 
  return (
+  
    <Menu
    onClick={(info) => handleMenuClick(info)}
    items={NAVIGATION_ITEMS}

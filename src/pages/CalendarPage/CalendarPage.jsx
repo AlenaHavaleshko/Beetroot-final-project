@@ -3,7 +3,6 @@ import React, { Fragment, useState, useCallback, useMemo, useEffect } from 'reac
 import PropTypes from 'prop-types'
 import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calendar'
 import { Spin } from "antd";
-// import events from "../../helpers/events";
 import "../../assets/styles/pages/calendar-page.scss";
 import moment from 'moment';
 import accountAPI from "../../api/apiService";
@@ -32,13 +31,15 @@ function CalendarPage() {
           title: title,
         }
         handleAddEvent(newEvent);  // визвала функция
+        handleDeleteEvent(newEvent);
 
         setEvents((prev) => [...prev, { start, end, title }])
       }
     },
     [setEvents]
   )
-
+  
+// select event
   const handleSelectEvent = useCallback(
     (event) => window.alert(event.title),
     []
@@ -52,12 +53,24 @@ function CalendarPage() {
     []
   )
 
+// add event
   const handleAddEvent = async (newEvent) => {
     setIsLoading(true);
     try {
       const response = await accountAPI.addTasksEventsAPI(newEvent);
     } catch (error) {
       console.error('Error when adding an event', error);
+    }
+    setIsLoading(false);
+  };
+
+// delete event
+  const handleDeleteEvent = async (newEvent) => {
+    setIsLoading(true);
+    try {
+      const response = await accountAPI.deleteTasksEventsAPI(newEvent);
+    } catch (error) {
+      console.error('Error when deliting an event', error);
     }
     setIsLoading(false);
   };
@@ -98,6 +111,7 @@ function CalendarPage() {
 
   return (
     <Fragment>
+      <button>Delete</button>
       { isLoading
     ? (
       <div className="example">

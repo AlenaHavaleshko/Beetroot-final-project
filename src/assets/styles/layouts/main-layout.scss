@@ -24,6 +24,7 @@
   gap: 1px;
   margin-top: 30px;
   margin-bottom: 30px;
+
 }
 
 .logo-tekst {
@@ -33,10 +34,15 @@
   font-weight: 450px;
   text-align: center;
   margin: 5px;
+
+  // @media (max-width: 768px) {
+  //    color: black;
+  //    }
 }
 
 .logo-svg {
   align-items: center;
+
 }
 
 .sider-logout {
@@ -138,7 +144,19 @@ ul li:last-child {
   }
 }
 
- // display: windowWidth <= 768 ? 'none' : 'block' // у мова для скриття кнопки при ширині менше ніж 768 рх
+ul li:last-child {
+  position: absolute;
+  top: 440px;
+
+  @media (max-width: 768px) {
+    top: 10px;
+}
+}
+
+.ant-drawer-body {
+max-height: max-content;
+}
+
 .header {
   height: 80px;
 
@@ -173,6 +191,34 @@ ul li:last-child {
       width: 50px;
       height: 50px;
     }
+  }
+
+  // drawer
+  .sider-drawer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    @media (max-width: 768px) {
+      margin-top: 0px;
+  }
+  }
+  
+  .logo-drawer-tekst {
+    font-family: 'Dancing Script', cursive;
+    color: black;
+    display: inline-block;
+    font-weight: 450px;
+    text-align: center;
+    margin: 5px;
+
+  }
+  
+  .logo-drawer-svg {
+    // align-items: center;
   }
 }
 

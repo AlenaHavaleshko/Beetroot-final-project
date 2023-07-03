@@ -38,17 +38,27 @@ const accountAPI = {
   return response.data;
 },
 
+// api for get calendar events
 getCalendarEventsAPI: async (year, month) => {
   const response = await axios.get(`/api/tasks?month=${month}&year=${year}`);
 
   return response.data;
 },
 
+// api for add calendar events
 addTasksEventsAPI: async (data) => {
   const response = await axios.post(`/api/tasks`, data);
 
   return response.data;
 },
+
+// api to delete calendar events
+deleteTasksEventsAPI: async (data) => {
+  const response = await axios.delete(`/api/tasks/649caa8aefe58330bdb9d8f4`, data);
+
+  return response.data;
+},
+
 };
 
 export default accountAPI;
