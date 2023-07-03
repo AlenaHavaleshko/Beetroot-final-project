@@ -77,25 +77,74 @@ ul li:last-child {
   top: 440px;
 }
 
+@media (max-width: 768px) {
+  .ant-layout-sider {
+    display: none;
+  }
+
+  .ant-layout {
+    margin-left: 0;
+  }
+}
+
 // header
 .header-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-right: 20px;
+
+  @media (max-width: 768px) {
+    .ant-layout-sider {
+      display: none;
+    }
+
+    .sider-trigger {
+      display: none;
+    }
+
+  }
+  
   @media (max-width: 580px) {
     justify-content: center;
   }
 }
+
+.mobile-burger-menu {
+  margin-left: 25px;
+  margin-top: 10px;
+  font-size: 30px;
+  position: absolute;
+  top: -24px;
+  left: -3px;
+  @media (min-width: 768px) {
+    display: none;
+}
+
+}
+.anticon svg {
+  display: inline-block;
+  font-size: 20px;
+}
+.header-burger-batton {
+  font-size: 16px;
+  width: 64px !important;
+  height: 64px;
+  position: absolute;
+  top: -11px;
+
+  @media (max-width: 768px) {
+      display: none;
+  }
+}
+
+ // display: windowWidth <= 768 ? 'none' : 'block' // у мова для скриття кнопки при ширині менше ніж 768 рх
 .header {
   height: 80px;
 
   &-page {
-    margin-left: 50px;
+    margin-left: 60px;
     font-family: var(--primary-font);
-    @media (max-width: 580px) {
-        display: none;
-      }
   }
 
   &-block {
@@ -104,6 +153,10 @@ ul li:last-child {
     justify-content: right;
     align-items: center;
     gap: 16px;
+
+    @media (max-width: 580px) {
+      display: none;
+    }
 
     &__theme {
       width: 50px;
