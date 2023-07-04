@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsCalendar2Check } from 'react-icons/bs';
 import {  Menu, Drawer } from 'antd';
 
-function MenuComponent({ setSelectedText, theme }) {
+function MenuComponent({ setSelectedText, theme, onClick }) {
  const NAVIGATION_ITEMS = [{
    label: <Link to="/account">My account</Link>,
    key: "/account",
@@ -56,6 +56,8 @@ useEffect(() => {
        navigate("/login");
      }
    }
+
+   onClick();
  };
 
  return (
