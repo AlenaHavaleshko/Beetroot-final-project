@@ -2,10 +2,11 @@
 import React, { Fragment, useState, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calendar'
-import { Spin } from "antd";
+import { Spin, Modal, Button, notification } from "antd";
 import "../../assets/styles/pages/calendar-page.scss";
 import moment from 'moment';
 import accountAPI from "../../api/apiService";
+import { AiOutlineDelete } from 'react-icons/ai';
 
 function CalendarPage() {
 
@@ -13,9 +14,13 @@ function CalendarPage() {
   const [myEvents, setEvents] = useState([])
   const [isLoading, setIsLoading] = useState(false);
 
+  //modal
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Content of the modal');
+
   useEffect(() => {
-    console.log('Use effect');
-    getCalendarEvents(2023, 6);
+    refreshCalendarInformation();
   }, []);
 
   const handleSelectSlot = useCallback(
@@ -31,110 +36,201 @@ function CalendarPage() {
           title: title,
         }
         handleAddEvent(newEvent);  // визвала функция
-        handleDeleteEvent(newEvent);
+       // handleDeleteEvent(newEvent);
 
         setEvents((prev) => [...prev, { start, end, title }])
       }
     },
     [setEvents]
   )
-  
-// select event
+
+  // select event
   const handleSelectEvent = useCallback(
-    (event) => window.alert(event.title),
+    (event) => {
+      console.log(event)
+      Modal.confirm({
+        title:  'Event Details',
+        content: <p>{event.title}</p>,
+        okText: 'Close',
+        cancelText: <AiOutlineDelete></AiOutlineDelete>,
+        closable: true,
+        // icon: <AiOutlineDelete></AiOutlineDelete>,
+        onCancel: () => handleDeleteEvent(event)
+      });
+    },
     []
-  )
+  );
 
   const { defaultDate, scrollToTime } = useMemo(
     () => ({
-      defaultDate: new Date(2023, 5, 12),
+      defaultDate: new Date(),
       scrollToTime: new Date(1970, 1, 1, 6),
     }),
     []
   )
 
-// add event
+  // add event
   const handleAddEvent = async (newEvent) => {
     setIsLoading(true);
     try {
       const response = await accountAPI.addTasksEventsAPI(newEvent);
+      await refreshCalendarInformation();
+      notification.success({
+        message: (<b>Task was successfully added!</b>)
+      }); 
     } catch (error) {
-      console.error('Error when adding an event', error);
     }
     setIsLoading(false);
   };
 
-// delete event
-  const handleDeleteEvent = async (newEvent) => {
+  // delete event
+  const handleDeleteEvent = async (eventToDelete) => {
     setIsLoading(true);
     try {
-      const response = await accountAPI.deleteTasksEventsAPI(newEvent);
+      const response = await accountAPI.deleteTasksEventsAPI(eventToDelete.id);
+      await refreshCalendarInformation();
+      notification.success({
+        message: (<b>{response.message}</b>)
+      });
     } catch (error) {
-      console.error('Error when deliting an event', error);
     }
     setIsLoading(false);
-  };
+  }
+    
 
-  const onChangeNavigation = (date, action) => {
+  const onChangeDate =  async (date) => {
     console.log(date);
     const year = moment(date).format("YYYY");
-    const month = moment(date).format("MM");
-    getCalendarEvents(year, month);
+    const month = moment(date).format("MM"); // январь будет 1
+    console.log(month)
+    await getCalendarEvents(year, month);
   }
 
   const getCalendarEvents = async (year, month) => {
     setIsLoading(true);
     try {
       const response = await accountAPI.getCalendarEventsAPI(year, month);
-
       let arrayOfEvents = [];
       response.forEach(elements => {
 
         elements.forEach(event => {
+          console.log(event)
+          // "start": "06:00",
+          //   "end": "08:00",
+          const startArray = event.start.split(":");
+          const endArray = event.end.split(":");
+
           arrayOfEvents.push({
             id: event._id,
             title: event.title,
-            start: new Date(event.createYear, event.createMonth - 1, event.createDay, 8, 0, 0), //10:32
-            end: new Date(event.createYear, event.createMonth - 1, event.createDay, 10, 30, 0), //12:32
+          start: new Date(event.createYear, event.createMonth - 1, event.createDay, Number(startArray[0]),  Number(startArray[1]), 0), //10:32
+            end: new Date(event.createYear, event.createMonth - 1, event.createDay, Number(endArray[0]), Number(endArray[1]), 0), //12:32
           });
         });
       });
       setEvents(arrayOfEvents);
-      console.log(arrayOfEvents);
-
-      console.log(response);
     } catch (error) {
       console.error('Error when open a calendar', error);
     }
-    setIsLoading(false);
+ setIsLoading(false);
+  };
+
+  // show modal
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    setModalText('The modal will be closed after two seconds');
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setOpen(false);
+  };
+
+  const handleDelete = async () => {
+    setConfirmLoading(true);
+    // Здесь выполните логику удаления события
+    // ...
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
   };
 
   return (
     <Fragment>
-      <button>Delete</button>
-      { isLoading
-    ? (
-      <div className="example">
-        <Spin size="large" style={{ margin: '0 auto' }} />
-      </div>
-      ) : (
-      <div style={{ height: 600 }} className="height600">
-        
-        <Calendar
-          onNavigate={(data, view, action) => onChangeNavigation(data, action)}
-          defaultDate={defaultDate}
-          defaultView={Views.MONTH}
-          events={myEvents}
-          localizer={localizer}
-          onSelectEvent={handleSelectEvent}
-          onSelectSlot={handleSelectSlot}
-          selectable
-          scrollToTime={scrollToTime}
-        />
-      </div>
-      )}
+
+      {isLoading
+              ? (
+                <div className="example1">
+                  <Spin size="large" />
+                </div>
+              ) : ""}
+
+      <Button type="primary" onClick={showModal}>
+        Open Modal with async logic
+      </Button>
+      <Modal
+        title="Title"
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <p>{modalText}</p>
+      </Modal>
+
+      {/* <Modal
+        title="Your event"
+        visible={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="delete" danger onClick={handleDelete}>
+            Delete
+          </Button>,
+          <Button key="ok" type="primary" onClick={handleOk} loading={confirmLoading}>
+            OK
+          </Button>,
+        ]}
+      
+      >
+        <p>{modalText}</p>
+      </Modal> */}
+     
+
+              <div style={{ height: 600 }} className="height600">
+
+              <Calendar
+                onNavigate={(data) => onChangeDate(data)}
+                defaultDate={defaultDate}
+                defaultView={Views.MONTH}
+                events={myEvents}
+                localizer={localizer}
+                onSelectEvent={handleSelectEvent}
+                onSelectSlot={handleSelectSlot}
+                selectable
+                scrollToTime={scrollToTime}
+              />
+              </div>
     </Fragment>
   )
+
+  async function refreshCalendarInformation() {
+    const currentDate = new Date(); // январь тут будет 0
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    console.log(month);
+    await getCalendarEvents(year, Number(month) + 1);
+  }
 }
 
 CalendarPage.propTypes = {

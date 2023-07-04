@@ -53,8 +53,8 @@ addTasksEventsAPI: async (data) => {
 },
 
 // api to delete calendar events
-deleteTasksEventsAPI: async (data) => {
-  const response = await axios.delete(`/api/tasks/649caa8aefe58330bdb9d8f4`, data);
+deleteTasksEventsAPI: async (eventId) => {
+  const response = await axios.delete(`/api/tasks/${eventId}`);
 
   return response.data;
 },
