@@ -5,7 +5,6 @@ import {
   Form,
   Input,
   DatePicker,
-  Radio,
   Col,
   Row,
   notification,
@@ -39,7 +38,6 @@ function AccountPage() {
       const userData = {
         name: "Boris Jonsonuk",
         telegram: "Telegram",
-        datePicker1: "2023/01",
         email: "example@gmail.com",
         gender: "female",
         phone: "+380661695564",
@@ -47,8 +45,6 @@ function AccountPage() {
 
       form.setFieldsValue(response.user);
 
-      // console.log(response.user);
-      // console.log(userData);
     }
     catch (error) { }
 
@@ -115,31 +111,7 @@ function AccountPage() {
             <Input placeholder="telegram" />
           </Form.Item>
         </Form.Item>
-        {/* end User name/ Telegram */}
-
-        {/* Birth day  */}
-        <Form.Item className="genera-margin" label="Birth day" labelCol={{ span: 24 }}>
-          <Row gutter={24}>
-            <Col span={24}>
-              <Form.Item  
-                name="birthday" 
-                getValueProps={(i) => ({ value: i === undefined ? undefined : moment(i) })}  
-                getValueFromEvent={(onChange) => moment(onChange).format('YYYY-MM-DD')}
-                >
-                <DatePicker 
-                format={'YYYY-MM-DD'}
-                className="date-picker"
-                id="birthday"
-
-                 />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form.Item>
-
-        {/* end Birth day */}
-
-        {/* Email / Phone number */}
+       
         <Form.Item className="genera-margin">
           <Form.Item
             label="Email"

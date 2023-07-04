@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import { BsCalendar2Check } from 'react-icons/bs';
 import { MdNightlight } from 'react-icons/md';
 import { FaUserCircle } from 'react-icons/fa';
 import { Link, useNavigate } from "react-router-dom";
@@ -34,18 +33,9 @@ function MainLayout({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const [width] = useWindowDimension();
 
-  // const path = window.location.pathname;
-  // console.log(path);
-
-  // const [menuItemName, setMenuItemName] = useState(startMenuItemName);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  // const setHeaderDescription = (e) => {
-  //   console.log(e.item.props.name);
-  //   setMenuItemName(e.item.props.name);
-  // }
 
   const getUserName = () => {
     const stringFromLocalstorate = localStorage.getItem("auth");

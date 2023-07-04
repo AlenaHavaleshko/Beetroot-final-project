@@ -19,7 +19,7 @@ const SignUp = () => {
     setIsLoading(true);
     try {
       const data = await generalAPI.registeredAPI(loginData);
-      navigate("/calendar", { replace: true });
+      navigate("/login", { replace: true });
     } catch (error) {
       notification.error({
         message: (<b>You entered the wrong username or password!</b>)
