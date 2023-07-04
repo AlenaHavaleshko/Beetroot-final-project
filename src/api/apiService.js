@@ -4,7 +4,9 @@ import axios from "./axios";
     // logout:      https://goose-track-api-3uhn.onrender.com/api/user/logout
     // login:       https://goose-track-api-3uhn.onrender.com/api/auth/login
 
-const accountAPI = {
+const generalAPI = {
+
+  
  // api for logIn, return user data and token we need
  loginAPI: async (data) => {
   console.log(data);
@@ -61,4 +63,4 @@ deleteTasksEventsAPI: async (eventId) => {
 
 };
 
-export default accountAPI;
+export default generalAPI;

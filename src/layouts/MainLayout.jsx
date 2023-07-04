@@ -88,11 +88,9 @@ function MainLayout({ children }) {
             className="logo-tekst">
             Task tracker
           </h1>
-
-          {/* <div className="demo-logo-vertical" /> */}
         </div>
 
-        {/* Сайдер Меню */}
+        {/* Sider menu */}
         <MenuComponent
           theme='dark'
           setSelectedText={setSelectedText}
@@ -102,7 +100,7 @@ function MainLayout({ children }) {
         </MenuComponent>
 
 
-        {/* Мобайл Меню */}
+        {/* Mobile menu */}
         <Drawer
           className="burger-menu"
           placement='left'

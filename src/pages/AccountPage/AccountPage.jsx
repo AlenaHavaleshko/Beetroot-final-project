@@ -13,7 +13,7 @@ import {
 } from "antd";
 
 // api
-import accountAPI from "../../api/apiService";
+import generalAPI from "../../api/apiService";
 
 //assets
 import "../../assets/styles/pages/account-page.scss";
@@ -31,7 +31,7 @@ function AccountPage() {
   const getAccountInfomation = async () => {
     setIsLoading(true);
     try {
-      const response = await accountAPI.getAccountInfoAPI();
+      const response = await generalAPI.getAccountInfoAPI();
       console.log(response);
       setUserAccountData(response.user);    
 
@@ -65,7 +65,7 @@ function AccountPage() {
   const saveAccountInformation = async (formValues) => {
     setIsLoading(true);
     try {
-      const response = await accountAPI.saveAccountInfoAPI(formValues);
+      const response = await generalAPI.saveAccountInfoAPI(formValues);
       notification.success({
         message: (<b>Data successfully saved</b>)
       });      

@@ -4,7 +4,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, notification } from 'antd';
 
 //api
-import accountAPI from '../../../api/apiService';
+import generalAPI from '../../../api/apiService';
 
 //assets
 import "../../../assets/styles/containers/auth-form-sign-up.scss";
@@ -18,7 +18,7 @@ const SignUp = () => {
   async function loginProcessing(loginData) { // function arrow
     setIsLoading(true);
     try {
-      const data = await accountAPI.registeredAPI(loginData);
+      const data = await generalAPI.registeredAPI(loginData);
       navigate("/calendar", { replace: true });
     } catch (error) {
       notification.error({

@@ -5,8 +5,13 @@ import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calen
 import { Spin, Modal, Button, notification } from "antd";
 import "../../assets/styles/pages/calendar-page.scss";
 import moment from 'moment';
-import accountAPI from "../../api/apiService";
+import generalAPI from "../../api/apiService";
 import { AiOutlineDelete } from 'react-icons/ai';
+
+
+let defaultCalendarDate = new Date();
+let year = defaultCalendarDate.getFullYear();
+let month = defaultCalendarDate.getMonth();
 
 function CalendarPage() {
 
@@ -20,7 +25,8 @@ function CalendarPage() {
   const [modalText, setModalText] = useState('Content of the modal');
 
   useEffect(() => {
-    refreshCalendarInformation();
+    month = Number(month) + 1
+    getCalendarEvents(year, month);
   }, []);
 
   const handleSelectSlot = useCallback(
@@ -28,15 +34,15 @@ function CalendarPage() {
       const title = window.prompt('Please enter event name');
       if (title) {
         const newEvent = {
-          date: moment(start).format("YYYY-MM-DD"), // 2023-06-10
-          start: moment(start).format("HH:mm"), // эта строка конвертит JS Date в 21:35
+          date: moment(start).format("YYYY-MM-DD"), 
+          start: moment(start).format("HH:mm"),
           end: moment(end).format("HH:mm"),
           priority: "Low",
           status: "To do",
           title: title,
         }
-        handleAddEvent(newEvent);  // визвала функция
-       // handleDeleteEvent(newEvent);
+        handleAddEvent(newEvent);  
+
 
         setEvents((prev) => [...prev, { start, end, title }])
       }
@@ -52,9 +58,7 @@ function CalendarPage() {
         title:  'Event Details',
         content: <p>{event.title}</p>,
         okText: 'Close',
-        cancelText: <AiOutlineDelete></AiOutlineDelete>,
-        closable: true,
-        // icon: <AiOutlineDelete></AiOutlineDelete>,
+        cancelText: <AiOutlineDelete/>,
         onCancel: () => handleDeleteEvent(event)
       });
     },
@@ -63,7 +67,7 @@ function CalendarPage() {
 
   const { defaultDate, scrollToTime } = useMemo(
     () => ({
-      defaultDate: new Date(),
+      defaultDate: defaultCalendarDate,
       scrollToTime: new Date(1970, 1, 1, 6),
     }),
     []
@@ -73,8 +77,8 @@ function CalendarPage() {
   const handleAddEvent = async (newEvent) => {
     setIsLoading(true);
     try {
-      const response = await accountAPI.addTasksEventsAPI(newEvent);
-      await refreshCalendarInformation();
+      const response = await generalAPI.addTasksEventsAPI(newEvent);
+      await getCalendarEvents(year, month);
       notification.success({
         message: (<b>Task was successfully added!</b>)
       }); 
@@ -87,8 +91,8 @@ function CalendarPage() {
   const handleDeleteEvent = async (eventToDelete) => {
     setIsLoading(true);
     try {
-      const response = await accountAPI.deleteTasksEventsAPI(eventToDelete.id);
-      await refreshCalendarInformation();
+      const response = await generalAPI.deleteTasksEventsAPI(eventToDelete.id);
+      await getCalendarEvents(year, month);
       notification.success({
         message: (<b>{response.message}</b>)
       });
@@ -98,18 +102,19 @@ function CalendarPage() {
   }
     
 
+  // когда листаем месяц/день на календаре
   const onChangeDate =  async (date) => {
     console.log(date);
-    const year = moment(date).format("YYYY");
-    const month = moment(date).format("MM"); // январь будет 1
-    console.log(month)
+    year = moment(date).format("YYYY");
+    month = moment(date).format("MM"); // January will be 1
+   // console.log(month)
     await getCalendarEvents(year, month);
   }
 
   const getCalendarEvents = async (year, month) => {
     setIsLoading(true);
     try {
-      const response = await accountAPI.getCalendarEventsAPI(year, month);
+      const response = await generalAPI.getCalendarEventsAPI(year, month);
       let arrayOfEvents = [];
       response.forEach(elements => {
 
@@ -156,8 +161,6 @@ function CalendarPage() {
 
   const handleDelete = async () => {
     setConfirmLoading(true);
-    // Здесь выполните логику удаления события
-    // ...
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
@@ -174,9 +177,6 @@ function CalendarPage() {
                 </div>
               ) : ""}
 
-      <Button type="primary" onClick={showModal}>
-        Open Modal with async logic
-      </Button>
       <Modal
         title="Title"
         open={open}
@@ -186,27 +186,6 @@ function CalendarPage() {
       >
         <p>{modalText}</p>
       </Modal>
-
-      {/* <Modal
-        title="Your event"
-        visible={open}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="delete" danger onClick={handleDelete}>
-            Delete
-          </Button>,
-          <Button key="ok" type="primary" onClick={handleOk} loading={confirmLoading}>
-            OK
-          </Button>,
-        ]}
-      
-      >
-        <p>{modalText}</p>
-      </Modal> */}
-     
-
               <div style={{ height: 600 }} className="height600">
 
               <Calendar
@@ -224,13 +203,9 @@ function CalendarPage() {
     </Fragment>
   )
 
-  async function refreshCalendarInformation() {
-    const currentDate = new Date(); // январь тут будет 0
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    console.log(month);
-    await getCalendarEvents(year, Number(month) + 1);
-  }
+  // async function refreshCalendarInformation() {
+  //   await getCalendarEvents(year1, Number(month1) + 1);
+  // }
 }
 
 CalendarPage.propTypes = {

@@ -4,7 +4,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, notification } from 'antd';
 
 //api
-import accountAPI from '../../../api/apiService';
+import generalAPI from '../../../api/apiService';
 
 //assets
 import "../../../assets/styles/containers/auth-form-log-in.scss";
@@ -18,7 +18,7 @@ const LogIn = () => { //function LogIn() {
   async function loginProcessing(loginData) { // function arrow
     setIsLoading(true);
     try {
-      const data = await accountAPI.loginAPI(loginData);
+      const data = await generalAPI.loginAPI(loginData);
       localStorage.setItem("auth", JSON.stringify(data));
       navigate("/calendar", { replace: true });
     } catch (error) {
